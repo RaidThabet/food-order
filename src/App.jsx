@@ -1,12 +1,11 @@
 import Header from "./components/Header";
-import Loading from "./components/Loading";
+import Meals from "./components/Meals";
 
 function App() {
-  
-
   return (
     <>
       <Header />
+      <Meals />
     </>
   );
 }

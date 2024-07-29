@@ -2,7 +2,7 @@ import headerLogo from "../assets/headerLogo.png";
 
 export default function Navbar() {
   return (
-    <div className="navbar px-4 py-4 bg-base-100">
+    <div className="navbar px-10 py-4 bg-transparent bg-teal-900">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">
           <img src={headerLogo} alt="Food Logo" className="w-10" /> Food Order
