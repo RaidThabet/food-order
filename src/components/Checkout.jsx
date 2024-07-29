@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-
-import Input from "./UI/Input";
 import Modal from "./UI/Modal";
 import useFetch from "../hooks/useFetch";
 import Error from "./Error";
