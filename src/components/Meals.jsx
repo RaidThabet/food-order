@@ -2,6 +2,7 @@ import { useContext } from "react";
 
 import Meal from "./Meal";
 import { MealsContext } from "../context/MealsContext";
+import Loading from "./Loading";
 
 export default function Meals() {
     const {data: meals, error, isLoading} = useContext(MealsContext);
@@ -11,7 +12,7 @@ export default function Meals() {
     }
 
     if (isLoading) {
-        return <p>Fethcing meals...</p>
+        return <Loading />
     }
 
     return (

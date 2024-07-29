@@ -20,7 +20,6 @@ export default function MealsContextProvider({children}) {
 
 
     useEffect(() => {
-        console.log("the meals: ", meals);
         setFilteredMeals({ data: meals, error: error, isLoading: isLoading });
     }, [meals, error, isLoading])
 

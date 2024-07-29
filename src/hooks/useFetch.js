@@ -14,28 +14,39 @@ async function sendHttpRequest(url, config) {
 
 export default function useFetch(url, config) {
     const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
 
-    const sendRequest = useCallback(async function sendRequest() {
-      setIsLoading(true);
-      try {
-        const resData = await sendHttpRequest(url, config);
-        setData(resData);
-      } catch (error) {
-        setError(error.message || "A problem occured");
-      }
+    function clearData() {
+      setData([]);
+    }
 
-      setIsLoading(false);
-    }, [url, config]);
+    const sendRequest = useCallback(
+      async function sendRequest(data) {
+        setIsLoading(true);
+        try {
+          const resData = await sendHttpRequest(url, { ...config, body: data });
+          setData(resData);
+        } catch (error) {
+          setError(error.message || "A problem occured");
+        }
+
+        setIsLoading(false);
+      },
+      [url, config]
+    );
 
     useEffect(() => {
-        sendRequest();
-    }, [sendRequest]);
+        if (config.method === "GET") {
+          sendRequest();
+        }
+    }, [sendRequest, config.method]);
 
     return {
       data,
       isLoading,
       error,
+      sendRequest,
+      clearData
     };
 }
