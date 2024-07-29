@@ -28,6 +28,7 @@ export default function useFetch(url, config) {
           const resData = await sendHttpRequest(url, { ...config, body: data });
           setData(resData);
         } catch (error) {
+          console.log("GOT AN ERROR");
           setError(error.message || "A problem occured");
         }
 
@@ -47,6 +48,7 @@ export default function useFetch(url, config) {
       isLoading,
       error,
       sendRequest,
-      clearData
+      clearData,
+      setError
     };
 }

@@ -16,9 +16,6 @@ export default function Error({message}) {
           />
         </svg>
         <span>{message}</span>
-        <form method="dialog">
-          <button className="btn btn-ghost">Close</button>
-        </form>
       </div>
     );
 }

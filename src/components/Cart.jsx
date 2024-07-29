@@ -36,9 +36,10 @@ export default function Cart() {
         setOpen(prev => !prev);
     }
 
+
   return (
     <>
-      <Checkout open={open} onClose={() => setOpen(false)} />
+      <Checkout open={open} onClose={() => setOpen(false)}/>
       <div className={"dropdown dropdown-end"}>
         <div tabIndex={0} className="btn btn-ghost btn-circle">
           <div className="indicator">
