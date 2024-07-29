@@ -1,17 +1,17 @@
-import Meal from "./Meal";
-import useFetch from "../hooks/useFetch";
+import { useContext } from "react";
 
-const config = {method: "GET"};
+import Meal from "./Meal";
+import { MealsContext } from "../context/MealsContext";
 
 export default function Meals() {
-    const {data: meals, error, isLoading: isFetching} = useFetch("http://localhost:3000/meals", config);
+    const {data: meals, error, isLoading} = useContext(MealsContext);
 
-    if (error) {
-        return <p>ERROR MEALS</p>
+    if (!meals ||  error) {
+        return <p>Something went wrong</p>
     }
 
-    if (isFetching) {
-        return <p>Fetching meals...</p>
+    if (isLoading) {
+        return <p>Fethcing meals...</p>
     }
 
     return (
