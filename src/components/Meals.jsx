@@ -16,7 +16,7 @@ export default function Meals() {
 
     return (
         <main className="flex flex-wrap justify-center items-center bg-teal-700">
-            {meals.map(meal => <Meal key={meal.id} name={meal.name} price={meal.price} image={meal.image} />)}
+            {meals.map(meal => <Meal key={meal.id} item={meal} />)}
 
         </main>
     )
