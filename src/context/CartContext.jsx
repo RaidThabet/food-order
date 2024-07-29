@@ -3,7 +3,7 @@
 import { createContext, useReducer } from "react";
 
 export const CartContext = createContext({
-    cartItems: [], // { name, price, quantity }
+    cartItems: [], // { id name, price, quantity }
     addItem: () => {},
     removeItem: () => {}
 })

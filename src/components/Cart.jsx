@@ -11,8 +11,24 @@ export default function Cart() {
     const totalNumber = items.reduce((total, item) => total + item.quantity, 0);
     const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
+    let content = (
+      <>
+        {items.map((item) => (
+          <CartItem key={item.id} item={item} />
+        ))}
+        <span className="text-info">Subtotal: ${totalAmount.toFixed(2)}</span>
+        <div className="card-actions">
+          <button className="btn btn-accent btn-block">View cart</button>
+        </div>
+      </>
+    );
+
+    if (items.length === 0) {
+        content = <p>Your cart is empty</p>
+    }
+
   return (
-    <div className="dropdown dropdown-end">
+    <div className={"dropdown dropdown-end"}>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
         <div className="indicator">
           <svg
@@ -37,13 +53,7 @@ export default function Cart() {
         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-80 shadow"
       >
         <div className="card-body">
-          {items.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
-          <span className="text-info">Subtotal: ${totalAmount.toFixed(2)}</span>
-          <div className="card-actions">
-            <button className="btn btn-accent btn-block">View cart</button>
-          </div>
+            {content}
         </div>
       </div>
     </div>

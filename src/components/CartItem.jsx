@@ -20,9 +20,9 @@ export default function CartItem({item}) {
           <p>{item.name}</p>
         </span>
         <span>
-          <button className="btn-sm btn-circle">-</button>
+          <button className="btn-sm btn-circle"  onMouseDown={() => handleRemoveItem(item.id)}>-</button>
           {item.quantity}
-          <button className="btn-sm btn-circle">+</button>
+          <button className="btn-sm btn-circle" onMouseDown={() => handleAddItem(item)}>+</button>
         </span>
       </div>
     );
