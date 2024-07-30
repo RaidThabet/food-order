@@ -53,8 +53,8 @@ export default function Checkout() {
 
   if (isSending) {
     actions = (
-      <button className="btn">
-        <span className="loading loading-spinner hover:border-transparent btn hover:bg-amber-500 border-amber-600 bg-amber-600 text-white"></span>
+      <button type="button" className="btn hover:border-transparent bg-amber-600 text-white hover:bg-amber-500 border-amber-600">
+        <span className="loading loading-spinner  "></span>
         Submitting your order...
       </button>
     );

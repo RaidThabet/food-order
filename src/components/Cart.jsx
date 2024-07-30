@@ -35,7 +35,7 @@ export default function Cart() {
   );
 
   if (items.length === 0) {
-    content = <p>Your cart is empty</p>;
+    content = <p className="font-bold text-stone-500">Your cart is empty</p>;
   }
 
   return (

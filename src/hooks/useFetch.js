@@ -31,7 +31,6 @@ export default function useFetch(url, config) {
           console.log("GOT AN ERROR");
           setError(error.message || "A problem occured");
         }
-
         setIsLoading(false);
       },
       [url, config]
