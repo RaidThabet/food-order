@@ -41,7 +41,7 @@ export default function Cart() {
   return (
     <>
       {isCheckingOut && <Checkout />}
-      <div className={"dropdown dropdown-end"}>
+      <div className={" dropdown dropdown-end"}>
         <div tabIndex={0} className=" btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
@@ -68,7 +68,8 @@ export default function Cart() {
           tabIndex={0}
           className="bg-white card card-compact dropdown-content z-[1] mt-3 w-80 shadow"
         >
-          <div className="card-body">{content}</div>
+          <div className="card-body">
+            {content}</div>
         </div>
       </div>
     </>
