@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
 
 export const CartContext = createContext({
     cartItems: [], // { id name, price, quantity }
     addItem: () => {},
     removeItem: () => {},
-    clearCart: () => {}
+    clearCart: () => {},
+    isCheckingOut: false,
+    showCheckout: () => {},
+    hideCheckout: () => {}
 })
 
 function cartReducer(state, action) {
@@ -42,6 +45,7 @@ function cartReducer(state, action) {
 
 export default function CartContextProvider({children}) {
     const [cart, dispatchCart] = useReducer(cartReducer, {cartItems: []});
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     function addItem(item) {
         dispatchCart({type: "ADD", item})
@@ -55,7 +59,15 @@ export default function CartContextProvider({children}) {
         dispatchCart({type: "CLEAR"})
     }
 
-    const cartContext = {cartItems: cart.cartItems, addItem, removeItem, clearCart}
+    function showCheckout() {
+        setIsCheckingOut(true);
+    }
+
+    function hideCheckout() {
+        setIsCheckingOut(false);
+    }
+
+    const cartContext = {cartItems: cart.cartItems, addItem, removeItem, clearCart, showCheckout, hideCheckout}
 
     return (
       <CartContext.Provider value={cartContext}>

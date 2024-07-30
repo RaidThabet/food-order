@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
-export default function Input({children, id, ...props}) {
+export default function Input({children, isFullWidth, id, isInvalid, ...props}) {
     return (
-      <label className=" form-control max-w-xs">
+      <label
+        className={
+          " form-control max-w-full " + (isFullWidth ? "w-full" : "w-auto")
+        }
+      >
         <div className="label">
           <span className="label-text">{children}</span>
         </div>
@@ -9,8 +13,13 @@ export default function Input({children, id, ...props}) {
           id={id}
           name={id}
           {...props}
-          className=" input input-bordered w-full max-w-xs"
+          className="input input-bordered max-w-full w-auto"
         />
+        {isInvalid && (
+          <div className="label">
+            <span className="label-text-alt">{isInvalid}</span>
+          </div>
+        )}
       </label>
     );
     

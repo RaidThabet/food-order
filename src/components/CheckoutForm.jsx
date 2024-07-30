@@ -1,33 +1,113 @@
 /* eslint-disable react/prop-types */
-import Input from "./UI/Input"
+import { useFormik } from "formik";
+import Input from "./UI/Input";
 
-export default function CheckoutForm({onSubmit, actions}) {
-    return (
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col flex-grow">
-        <span className="flex flex-col gap-3">
-          <span className="flex gap-3">
-            <Input id="name" type="text">
-              Full Name
-            </Input>
-            <Input id="city" type="text">
-              City
-            </Input>
-          </span>
-          <Input id="email" type="email">
-            Email
+const validate = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Name is required";
+  }
+
+  if (!values.city) {
+    errors.city = "City is required";
+  }
+
+  if (!values.email) {
+    errors.email = "Email address is required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  if (!values.street) {
+    errors.street = "Street is required";
+  }
+
+  if (!values["postal-code"]) {
+    errors["postal-code"] = "Postal code is required";
+  }
+
+  return errors;
+};
+
+export default function CheckoutFormik({ onSubmit, actions, totalPrice }) {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      street: "",
+      "postal-code": "",
+      city: "",
+    },
+    validate,
+    onSubmit: (values) => onSubmit(values),
+  });
+
+  return (
+    <>
+    <h2 className="text-center">Please fulfill this form</h2>
+    <form
+      className="flex flex-col gap-8"
+      onSubmit={(event) => {
+        event.preventDefault();
+        formik.handleSubmit(formik.values);
+      }}
+    >
+      <div className="flex flex-col items-center flex-grow gap-4">
+        <div className="flex flex-wrap gap-3">
+          <Input
+            id="name"
+            type="text"
+            value={formik.values.name}
+            isInvalid={formik.errors.name}
+            onChange={formik.handleChange}
+          >
+            Full Name
           </Input>
-        </span>
-        <span className="flex gap-3">
-          <Input id="street" type="text">
+          <Input
+            id="city"
+            type="text"
+            value={formik.values.city}
+            isInvalid={formik.errors.city}
+            onChange={formik.handleChange}
+          >
+            City
+          </Input>
+        </div>
+        <Input
+          id="email"
+          type="email"
+          value={formik.values.email}
+          isInvalid={formik.errors.email}
+          onChange={formik.handleChange}
+          isFullWidth
+        >
+          Email
+        </Input>
+        <div className="flex flex-wrap gap-3">
+          <Input
+            id="street"
+            type="text"
+            value={formik.values.street}
+            isInvalid={formik.errors.street}
+            onChange={formik.handleChange}
+          >
             Street
           </Input>
-          <Input id="postal-code" type="text">
+          <Input
+            id="postal-code"
+            type="text"
+            value={formik.values["postal-code"]}
+            isInvalid={formik.errors["postal-code"]}
+            onChange={formik.handleChange}
+          >
             Postal Code
           </Input>
-        </span>
+        </div>
       </div>
       <div className="flex justify-end gap-4">{actions}</div>
     </form>
-    )
+    <h2 className="mt-4 text-right">Total price: {totalPrice}</h2> 
+    </>
+    
+  );
 }

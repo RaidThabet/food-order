@@ -2,19 +2,20 @@
 import Modal from "./UI/Modal";
 import useFetch from "../hooks/useFetch";
 import Error from "./Error";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import CheckoutForm from "./CheckoutForm";
+import CheckoutFormik from "./CheckoutForm";
 
 const config = {
   method: "POST",
   headers: { "Content-Type": "application/json" },
 };
 
-export default function Checkout({open, onClose}) {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+export default function Checkout({ open, onClose }) {
+  // const [isSubmitted, setIsSubmitted] = useState(false);
 
   const cartCtx = useContext(CartContext);
+  const totalPrice = cartCtx.cartItems.reduce((total, item) => total + item.quantity * item.price, 0)
 
   const {
     data,
@@ -22,10 +23,12 @@ export default function Checkout({open, onClose}) {
     isLoading: isSending,
     sendRequest,
     clearData,
-    setError
+    setError,
   } = useFetch("http://localhost:3000/orders", config);
-  
-  let errorMessage = <></>
+
+  console.log("Infos from useFetch: ", data, error, isSending);
+
+  let errorMessage;
 
   if (error) {
     errorMessage = <Error message="Failed to submit order." />;
@@ -34,31 +37,28 @@ export default function Checkout({open, onClose}) {
   let actions = (
     <>
       {errorMessage}
-      <form method="dialog">
-        <button className="btn btn-ghost">Cancel</button>
-      </form>
+      <button type="button" className="btn btn-ghost" onClick={handleCancelCheckout}>
+        Cancel
+      </button>
       <button type="submit" className="btn">
         Submit Order
       </button>
     </>
   );
 
-
   if (isSending) {
     actions = (
-      <button disabled className="btn">
+      <button  className="btn">
         <span className="loading loading-spinner"></span>
         Submitting your order...
       </button>
     );
   }
 
-  let content = (
-    <CheckoutForm onSubmit={handleSubmit} actions={actions}/>
-  );
 
-  if (data && !error && isSubmitted) {
-      content = (
+  if (data && !error) {
+    return (
+      <Modal open={open} onClose={onClose}>
         <>
           <h2>Your order is submitted!</h2>
           <form method="dialog">
@@ -67,40 +67,37 @@ export default function Checkout({open, onClose}) {
             </button>
           </form>
         </>
-      );
+      </Modal>
+    );
   }
 
   function handleClearData() {
-    setError(null);
+    handleCancelCheckout();
     cartCtx.clearCart();
-    clearData();
-    setIsSubmitted(false);
-    onClose();
   }
 
-    function handleSubmit(event) {
+  function handleCancelCheckout() {
+    onClose();
+    setError(null);
+    clearData();
+  }
 
-      event.preventDefault();
-
-      const fd = new FormData(event.target);
-      const data = Object.fromEntries(fd.entries());
-
-      sendRequest(
-        JSON.stringify({
-          order: {
-            items: cartCtx.cartItems,
-            customer: data,
-          },
-        })
-      );
-
-      setError(null);
-      setIsSubmitted(true);
-    }
-
-    return (
-      <Modal open={open} onClose={onClose}>
-        {content}
-      </Modal>
+  function handleSubmit(values) {
+    sendRequest(
+      JSON.stringify({
+        order: {
+          items: cartCtx.cartItems,
+          customer: values,
+        },
+      })
     );
+
+    setError(null);
+  }
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <CheckoutFormik onSubmit={handleSubmit} actions={actions} totalPrice={totalPrice}/>
+    </Modal>
+  );
 }

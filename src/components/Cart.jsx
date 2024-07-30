@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import {v4 as uuidv4} from "uuid";
 
 import { CartContext } from "../context/CartContext";
 import CartItem from "./CartItem";
@@ -33,9 +34,8 @@ export default function Cart() {
     }
 
     function handleOpenCheckout() {
-        setOpen(prev => !prev);
+      setOpen(true);
     }
-
 
   return (
     <>

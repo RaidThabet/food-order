@@ -13,12 +13,12 @@ async function sendHttpRequest(url, config) {
 }
 
 export default function useFetch(url, config) {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(config.method === "GET" ? [] : null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
 
     function clearData() {
-      setData([]);
+      setData(config.method === "GET" ? [] : null);
     }
 
     const sendRequest = useCallback(
@@ -38,10 +38,10 @@ export default function useFetch(url, config) {
     );
 
     useEffect(() => {
-        if (config.method === "GET") {
+        if (config && (config.method === "GET" || !config.method) || !config) {
           sendRequest();
         }
-    }, [sendRequest, config.method]);
+    }, [sendRequest, config]);
 
     return {
       data,
