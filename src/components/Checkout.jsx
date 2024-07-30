@@ -2,20 +2,23 @@
 import Modal from "./UI/Modal";
 import useFetch from "../hooks/useFetch";
 import Error from "./Error";
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
-import CheckoutFormik from "./CheckoutForm";
+import CheckoutForm from "./CheckoutForm";
+import useCartItems from "../hooks/useCartItems";
+import { useCartActions } from "../hooks/useCartActions";
 
 const config = {
   method: "POST",
   headers: { "Content-Type": "application/json" },
 };
 
-export default function Checkout({ open, onClose }) {
-  // const [isSubmitted, setIsSubmitted] = useState(false);
+export default function Checkout() {
+  const { cartItems, isCheckingOut } = useCartItems();
+  const { clearCart, hideCheckout } = useCartActions();
 
-  const cartCtx = useContext(CartContext);
-  const totalPrice = cartCtx.cartItems.reduce((total, item) => total + item.quantity * item.price, 0)
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.quantity * item.price,
+    0
+  );
 
   const {
     data,
@@ -26,8 +29,6 @@ export default function Checkout({ open, onClose }) {
     setError,
   } = useFetch("http://localhost:3000/orders", config);
 
-  console.log("Infos from useFetch: ", data, error, isSending);
-
   let errorMessage;
 
   if (error) {
@@ -37,7 +38,11 @@ export default function Checkout({ open, onClose }) {
   let actions = (
     <>
       {errorMessage}
-      <button type="button" className="btn btn-ghost" onClick={handleCancelCheckout}>
+      <button
+        type="button"
+        className="btn btn-ghost"
+        onClick={handleCancelCheckout}
+      >
         Cancel
       </button>
       <button type="submit" className="btn">
@@ -48,17 +53,16 @@ export default function Checkout({ open, onClose }) {
 
   if (isSending) {
     actions = (
-      <button  className="btn">
+      <button className="btn">
         <span className="loading loading-spinner"></span>
         Submitting your order...
       </button>
     );
   }
 
-
   if (data && !error) {
     return (
-      <Modal open={open} onClose={onClose}>
+      <Modal open={isCheckingOut} onClose={handleClearData}>
         <>
           <h2>Your order is submitted!</h2>
           <form method="dialog">
@@ -72,12 +76,14 @@ export default function Checkout({ open, onClose }) {
   }
 
   function handleClearData() {
-    handleCancelCheckout();
-    cartCtx.clearCart();
+    hideCheckout();
+    clearCart();
+    setError(null);
+    clearData();
   }
 
   function handleCancelCheckout() {
-    onClose();
+    hideCheckout();
     setError(null);
     clearData();
   }
@@ -86,7 +92,7 @@ export default function Checkout({ open, onClose }) {
     sendRequest(
       JSON.stringify({
         order: {
-          items: cartCtx.cartItems,
+          items: cartItems,
           customer: values,
         },
       })
@@ -96,8 +102,12 @@ export default function Checkout({ open, onClose }) {
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <CheckoutFormik onSubmit={handleSubmit} actions={actions} totalPrice={totalPrice}/>
+    <Modal open={isCheckingOut} onClose={handleCancelCheckout}>
+      <CheckoutForm
+        onSubmit={handleSubmit}
+        actions={actions}
+        totalPrice={totalPrice}
+      />
     </Modal>
   );
 }

@@ -11,7 +11,7 @@ export default function Modal({open, onClose, children}) {
           modal.showModal();
         }
     
-        return () => {
+        else {
           modal.close();
         }
       }, [open]);

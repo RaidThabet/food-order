@@ -1,45 +1,39 @@
-import { useContext, useState } from "react";
-import {v4 as uuidv4} from "uuid";
-
-import { CartContext } from "../context/CartContext";
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
-
+import useCartItems from "../hooks/useCartItems";
+import { useCartActions } from "../hooks/useCartActions";
 
 export default function Cart() {
-    const [open, setOpen] = useState(false);
+  const { showCheckout } = useCartActions();
+  const { cartItems: items, isCheckingOut } = useCartItems();
 
+  const totalNumber = items.reduce((total, item) => total + item.quantity, 0);
+  const totalAmount = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
-    const cartCtx = useContext(CartContext);
-    const items = cartCtx.cartItems;
+  let content = (
+    <>
+      {items.map((item) => (
+        <CartItem key={item.id} item={item} />
+      ))}
+      <span className="text-info">Subtotal: ${totalAmount.toFixed(2)}</span>
+      <div className="card-actions">
+        <button className="btn btn-accent btn-block" onClick={showCheckout}>
+          Checkout
+        </button>
+      </div>
+    </>
+  );
 
-    const totalNumber = items.reduce((total, item) => total + item.quantity, 0);
-    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
-
-
-    let content = (
-      <>
-        {items.map((item) => (
-          <CartItem key={item.id} item={item} />
-        ))}
-        <span className="text-info">Subtotal: ${totalAmount.toFixed(2)}</span>
-        <div className="card-actions">
-          <button className="btn btn-accent btn-block" onClick={handleOpenCheckout}>Checkout</button>
-        </div>
-      </>
-    );
-
-    if (items.length === 0) {
-        content = <p>Your cart is empty</p>
-    }
-
-    function handleOpenCheckout() {
-      setOpen(true);
-    }
+  if (items.length === 0) {
+    content = <p>Your cart is empty</p>;
+  }
 
   return (
     <>
-      <Checkout open={open} onClose={() => setOpen(false)}/>
+      {isCheckingOut && <Checkout />}
       <div className={"dropdown dropdown-end"}>
         <div tabIndex={0} className="btn btn-ghost btn-circle">
           <div className="indicator">
