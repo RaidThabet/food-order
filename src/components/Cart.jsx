@@ -14,17 +14,24 @@ export default function Cart() {
   );
 
   let content = (
-    <>
+    <div className="flex flex-col justify-around gap-6">
+      <div className="flex flex-col gap-3">
       {items.map((item) => (
         <CartItem key={item.id} item={item} />
       ))}
-      <span className="text-info">Subtotal: ${totalAmount.toFixed(2)}</span>
-      <div className="card-actions">
-        <button className="btn btn-accent btn-block" onClick={showCheckout}>
-          Checkout
-        </button>
       </div>
-    </>
+
+      <div>
+        <span className="text-amber-600 font-bold">
+          Subtotal: ${totalAmount.toFixed(2)}
+        </span>
+        <div className="card-actions">
+          <button className="btn btn-accent btn-block text-amber-600 bg-white border-amber-600 hover:bg-amber-600 hover:text-white hover:border-transparent" onClick={showCheckout}>
+            Checkout
+          </button>
+        </div>
+      </div>
+    </div>
   );
 
   if (items.length === 0) {
@@ -35,15 +42,16 @@ export default function Cart() {
     <>
       {isCheckingOut && <Checkout />}
       <div className={"dropdown dropdown-end"}>
-        <div tabIndex={0} className="btn btn-ghost btn-circle">
+        <div tabIndex={0} className=" btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              stroke="white"
             >
+              C
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -51,12 +59,14 @@ export default function Cart() {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <span className="badge badge-sm indicator-item">{totalNumber}</span>
+            <span className="bg-stone-700 badge badge-sm indicator-item">
+              <span className="text-white">{totalNumber}</span>
+            </span>
           </div>
         </div>
         <div
           tabIndex={0}
-          className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-80 shadow"
+          className="bg-white card card-compact dropdown-content z-[1] mt-3 w-80 shadow"
         >
           <div className="card-body">{content}</div>
         </div>

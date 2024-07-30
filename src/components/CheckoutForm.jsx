@@ -29,7 +29,7 @@ const validate = (values) => {
   return errors;
 };
 
-export default function CheckoutFormik({ onSubmit, actions, totalPrice }) {
+export default function CheckoutFormik({ onSubmit, actions, totalPrice, errorMessage }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -44,70 +44,74 @@ export default function CheckoutFormik({ onSubmit, actions, totalPrice }) {
 
   return (
     <>
-    <h2 className="text-center">Please fulfill this form</h2>
-    <form
-      className="flex flex-col gap-8"
-      onSubmit={(event) => {
-        event.preventDefault();
-        formik.handleSubmit(formik.values);
-      }}
-    >
-      <div className="flex flex-col items-center flex-grow gap-4">
-        <div className="flex flex-wrap gap-3">
+      <p className="text-black font-bold text-2xl text-center mb-2">
+        Please fulfill this form
+      </p>
+      {errorMessage}
+      <form
+        className=" flex flex-col gap-8"
+        onSubmit={(event) => {
+          event.preventDefault();
+          formik.handleSubmit(formik.values);
+        }}
+      >
+        <div className="flex flex-col items-center flex-grow">
+          <div className="flex flex-wrap gap-3">
+            <Input
+              id="name"
+              type="text"
+              value={formik.values.name}
+              isInvalid={formik.errors.name}
+              onChange={formik.handleChange}
+            >
+              Full Name
+            </Input>
+            <Input
+              id="city"
+              type="text"
+              value={formik.values.city}
+              isInvalid={formik.errors.city}
+              onChange={formik.handleChange}
+            >
+              City
+            </Input>
+          </div>
           <Input
-            id="name"
-            type="text"
-            value={formik.values.name}
-            isInvalid={formik.errors.name}
+            id="email"
+            type="email"
+            value={formik.values.email}
+            isInvalid={formik.errors.email}
             onChange={formik.handleChange}
+            isFullWidth
           >
-            Full Name
+            Email
           </Input>
-          <Input
-            id="city"
-            type="text"
-            value={formik.values.city}
-            isInvalid={formik.errors.city}
-            onChange={formik.handleChange}
-          >
-            City
-          </Input>
+          <div className="flex flex-wrap gap-3">
+            <Input
+              id="street"
+              type="text"
+              value={formik.values.street}
+              isInvalid={formik.errors.street}
+              onChange={formik.handleChange}
+            >
+              Street
+            </Input>
+            <Input
+              id="postal-code"
+              type="text"
+              value={formik.values["postal-code"]}
+              isInvalid={formik.errors["postal-code"]}
+              onChange={formik.handleChange}
+            >
+              Postal Code
+            </Input>
+          </div>
         </div>
-        <Input
-          id="email"
-          type="email"
-          value={formik.values.email}
-          isInvalid={formik.errors.email}
-          onChange={formik.handleChange}
-          isFullWidth
-        >
-          Email
-        </Input>
-        <div className="flex flex-wrap gap-3">
-          <Input
-            id="street"
-            type="text"
-            value={formik.values.street}
-            isInvalid={formik.errors.street}
-            onChange={formik.handleChange}
-          >
-            Street
-          </Input>
-          <Input
-            id="postal-code"
-            type="text"
-            value={formik.values["postal-code"]}
-            isInvalid={formik.errors["postal-code"]}
-            onChange={formik.handleChange}
-          >
-            Postal Code
-          </Input>
-        </div>
-      </div>
-      <div className="flex justify-end gap-4">{actions}</div>
-    </form>
-    <h2 className="mt-4 text-right">Total price: {totalPrice}</h2> 
+        <div className="flex justify-end gap-4">{actions}</div>
+      </form>
+      <h2 className="font-bold text-xl text-amber-600 mt-4 text-right">
+        Total Price: ${totalPrice}
+      </h2>
     </>
-    
   );
 }

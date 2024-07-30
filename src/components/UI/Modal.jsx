@@ -18,7 +18,7 @@ export default function Modal({open, onClose, children}) {
 
     return createPortal(
       <dialog ref={dialog} className="modal flex items-center justify-center bg-black bg-opacity-50" onClose={onClose}>
-        <div className="modal-box max-w-full w-auto bg-amber-500  ">
+        <div className="modal-box max-w-full w-auto bg-stone-300  ">
           {children}
         </div>
       </dialog>,

@@ -7,17 +7,17 @@ export default function Input({children, isFullWidth, id, isInvalid, ...props}) 
         }
       >
         <div className="label">
-          <span className="label-text">{children}</span>
+          <span className="text-stone-800 font-bold label-text">{children}</span>
         </div>
         <input
           id={id}
           name={id}
           {...props}
-          className="input input-bordered max-w-full w-auto"
+          className={`bg-stone-200 text-black input input-bordered ${isInvalid && "input-error"} max-w-full w-auto`}
         />
         {isInvalid && (
           <div className="label">
-            <span className="label-text-alt">{isInvalid}</span>
+            <span className="text-red-600 label-text-alt">{isInvalid}</span>
           </div>
         )}
       </label>

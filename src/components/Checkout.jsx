@@ -37,15 +37,15 @@ export default function Checkout() {
 
   let actions = (
     <>
-      {errorMessage}
+      {/* {errorMessage} */}
       <button
         type="button"
-        className="btn btn-ghost"
+        className="btn btn-ghost text-black"
         onClick={handleCancelCheckout}
       >
         Cancel
       </button>
-      <button type="submit" className="btn">
+      <button type="submit" className="btn btn-accent  hover:bg-amber-500 border-amber-600 bg-amber-600 text-white hover:border-transparent">
         Submit Order
       </button>
     </>
@@ -54,7 +54,7 @@ export default function Checkout() {
   if (isSending) {
     actions = (
       <button className="btn">
-        <span className="loading loading-spinner"></span>
+        <span className="loading loading-spinner hover:border-transparent btn hover:bg-amber-500 border-amber-600 bg-amber-600 text-white"></span>
         Submitting your order...
       </button>
     );
@@ -63,14 +63,23 @@ export default function Checkout() {
   if (data && !error) {
     return (
       <Modal open={isCheckingOut} onClose={handleClearData}>
-        <>
-          <h2>Your order is submitted!</h2>
-          <form method="dialog">
-            <button className="btn " onClick={handleClearData}>
+        <div className="flex flex-col gap-4 p-8">
+          <p className="text-center text-amber-600 font-bold text-2xl">
+            Your order is submitted!
+          </p>
+          <p className="text-stone-700 font-bold">
+            We will get back to you with more details via email within the next
+            few minutes.
+          </p>
+          <div className="flex justify-center items-center">
+            <button
+              className="hover:border-transparent btn hover:bg-amber-500 border-amber-600 bg-amber-600 text-white px-12"
+              onClick={handleClearData}
+            >
               Okay
             </button>
-          </form>
-        </>
+          </div>
+        </div>
       </Modal>
     );
   }
@@ -107,6 +116,7 @@ export default function Checkout() {
         onSubmit={handleSubmit}
         actions={actions}
         totalPrice={totalPrice}
+        errorMessage={errorMessage}
       />
     </Modal>
   );

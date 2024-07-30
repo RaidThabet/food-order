@@ -15,15 +15,16 @@ export default function CartItem({item}) {
     }
 
     return (
-      <div className="flex justify-between">
+      <div className="flex justify-between font-bold text-black">
         <span>
-          <p>{item.name}</p>
+          <p className="w-36">{item.name}</p>
         </span>
         <span>
-          <button className="btn-sm btn-circle"  onMouseDown={() => handleRemoveItem(item.id)}>-</button>
+          <button className="w-4 h-4 text-black"  onMouseDown={() => handleRemoveItem(item.id)}>-</button>
           {item.quantity}
-          <button className="btn-sm btn-circle" onMouseDown={() => handleAddItem(item)}>+</button>
+          <button className="w-4 h-4 text-black" onMouseDown={() => handleAddItem(item)}>+</button>
         </span>
+        <span className="text-right w-12">${item.price}</span>
       </div>
     );
 }

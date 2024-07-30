@@ -7,20 +7,22 @@ export default function Meal({ item }) {
   const { addItem } = useCartActions();
 
   return (
-    <div className="flex flex-col w-72 m-4 bg-stone-200 text-stone-950 rounded-md">
-      <img
-        src={`http://localhost:3000/${item.image}`}
-        alt=""
-        className="w-72 h-72 rounded-t-md"
-      />
-      <div className="flex flex-grow justify-between px-1 items-center gap-14 py-3">
+    <div className="flex flex-col w-[22rem] h-80 m-4 bg-stone-200 text-stone-950 rounded-xl overflow-hidden hover:scale-105 transition-transform" >
+      <div className="relative w-full h-5/6 overflow-hidden">
+        <img
+          src={`http://localhost:3000/${item.image}`}
+          alt=""
+          className="absolute inset-0 w-full h-full rounded-t-xl"
+        />
+      </div>
+      <div className="flex flex-grow justify-between px-4 items-center py-3">
         <span>
-          <p>{item.name}</p>
+          <p className="font-bold">{item.name}</p>
           <p className="text-bold">${item.price}</p>
         </span>
         <span>
-          <button className="btn btn-circle" onClick={() => addItem(item)}>
-            +
+          <button className="btn text-white bg-stone-800 hover:bg-stone-500 border-transparent text-sm text-center" onClick={() => addItem(item)}>
+            Add to cart
           </button>
         </span>
       </div>
