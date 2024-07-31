@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 export default function Error({message}) {
     return (
-      <div role="alert" className="alert alert-error">
+      <div role="alert" className="alert alert-error max-sm:flex">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 shrink-0 stroke-current"
@@ -15,7 +15,7 @@ export default function Error({message}) {
             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span>{message}</span>
+        <span className="lg:max-xl:text-xl">{message}</span>
       </div>
     );
 }

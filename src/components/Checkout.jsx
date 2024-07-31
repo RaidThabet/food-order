@@ -40,12 +40,12 @@ export default function Checkout() {
       {/* {errorMessage} */}
       <button
         type="button"
-        className="btn btn-ghost text-black"
+        className="lg:max-xl:text-xl btn btn-ghost text-black"
         onClick={handleCancelCheckout}
       >
         Cancel
       </button>
-      <button type="submit" className="btn btn-accent  hover:bg-amber-500 border-amber-600 bg-amber-600 text-white hover:border-transparent">
+      <button type="submit" className="lg:max-xl:text-xl max-xl:p-2 btn btn-accent  hover:bg-amber-500 border-amber-600 bg-amber-600 text-white hover:border-transparent">
         Submit Order
       </button>
     </>
@@ -53,7 +53,7 @@ export default function Checkout() {
 
   if (isSending) {
     actions = (
-      <button type="button" className="btn cursor-not-allowed no-animation hover:border-transparent bg-stone-400 text-white hover:bg-stone-400 border-transparent">
+      <button type="button" className="lg:max-xl:text-xl btn cursor-not-allowed no-animation hover:border-transparent bg-stone-400 text-white hover:bg-stone-400 border-transparent">
         <span className="loading loading-spinner  "></span>
         Submitting your order...
       </button>

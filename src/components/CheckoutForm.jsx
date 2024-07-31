@@ -49,14 +49,14 @@ export default function CheckoutFormik({ onSubmit, actions, totalPrice, errorMes
       </p>
       {errorMessage}
       <form
-        className=" flex flex-col gap-8"
+        className=" flex flex-col gap-8 max-xl:w-auto max-xl:h-auto"
         onSubmit={(event) => {
           event.preventDefault();
           formik.handleSubmit(formik.values);
         }}
       >
-        <div className="flex flex-col items-center flex-grow">
-          <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col max-sm:items-start items-center">
+          <div className="flex justify-between max-sm:flex-col gap-3 max-sm:gap-0 w-full">
             <Input
               id="name"
               type="text"
@@ -86,7 +86,7 @@ export default function CheckoutFormik({ onSubmit, actions, totalPrice, errorMes
           >
             Email
           </Input>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex justify-between max-sm:flex-col gap-3 max-sm:gap-0 w-full">
             <Input
               id="street"
               type="text"
